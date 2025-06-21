@@ -15,6 +15,25 @@ export function GyngerPaySection() {
 
   return (
     <section className="relative z-10 bg-white py-25 sm:py-32">
+      <div className="px-6 sm:px-6 lg:px-32 mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    {/* Left - Heading */}
+          <h1 className="text-4xl md:text-5xl font-medium text-[#020518] leading-tight">
+           Payment solutions purpose-<br />
+           built for the <em className="italic">tech industry</em>.
+          </h1>
+
+    {/* Right - CTA */}
+         <a
+         href="#"
+         className="text-base font-medium text-gray-500 hover:text-gray-800 flex items-center gap-2 whitespace-nowrap pt-2 md:pt-0"
+        >
+      See what I can finance with Gynger
+      <ArrowRight className="w-4 h-4" />
+    </a>
+  </div>
+</div>
+
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
           {/* Left Content */}
