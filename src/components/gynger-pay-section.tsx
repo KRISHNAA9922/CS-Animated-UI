@@ -14,8 +14,8 @@ export function GyngerPaySection() {
   };
 
   return (
-    <section className="relative z-10 bg-white py-28 sm:py-32">
-      <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-12">
+    <section className="relative z-10 bg-white py-25 sm:py-32">
+      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
           {/* Left Content */}
           <motion.div

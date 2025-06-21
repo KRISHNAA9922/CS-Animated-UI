@@ -41,7 +41,7 @@ const GyngerSolution: NextPage = () => {
 
   return (
     <div className="min-h-screen bg-white px-4 py-25">
-      <div className="bg-teal-950 p-8 sm:p-10 lg:p-14 rounded-2xl max-w-7xl mx-auto text-center">
+      <div className="bg-teal-950 p-8 sm:p-10 lg:p-14 rounded-2xl max-w-6xl mx-auto text-center">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10 gap-4">
           <h1 className="text-3xl sm:text-4xl font-bold text-white">
             Find your solution

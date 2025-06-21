@@ -7,6 +7,7 @@ import { GyngerPaySection } from "@/components/gynger-pay-section"
 import GyngerCard  from '@/components/GyngerCard'
 import GyngerSolution from "@/components/GyngerSolution"
 import Testimonials from "@/components/Testimonial-section"
+import  GetInTouch  from "@/components/GetInTouch"
 
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
       <GyngerCard /> 
       <GyngerSolution/>
       <Testimonials/>
+      <GetInTouch/>
     </main>
     </div>
   )
