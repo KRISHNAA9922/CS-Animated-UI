@@ -6,6 +6,7 @@ import { GrowthSection } from "@/components/growth-section"
 import { GyngerPaySection } from "@/components/gynger-pay-section"
 import GyngerCard  from '@/components/GyngerCard'
 import GyngerSolution from "@/components/GyngerSolution"
+import Testimonials from "@/components/Testimonial-section"
 
 
 export default function HomePage() {
@@ -18,6 +19,7 @@ export default function HomePage() {
       <main className="bg-gray-50">
       <GyngerCard /> 
       <GyngerSolution/>
+      <Testimonials/>
     </main>
     </div>
   )
