@@ -4,7 +4,8 @@ import { Hero } from "@/components/hero"
 import { MovingLogos } from "@/components/moving-logos"
 import { GrowthSection } from "@/components/growth-section"
 import { GyngerPaySection } from "@/components/gynger-pay-section"
-import GyngerCard  from '@/components/GyngerCard';
+import GyngerCard  from '@/components/GyngerCard'
+import GyngerSolution from "@/components/GyngerSolution"
 
 
 export default function HomePage() {
@@ -15,7 +16,8 @@ export default function HomePage() {
       <GrowthSection />
       <GyngerPaySection />
       <main className="bg-gray-50">
-      <GyngerCard />
+      <GyngerCard /> 
+      <GyngerSolution/>
     </main>
     </div>
   )
