@@ -32,6 +32,7 @@ const testimonials = [
 
 const TestimonialSlider = () => {
   return (
+    
     <section className="w-full py-20 overflow-hidden relative bg-white">
       <style>{`
         .swiper-slide.is-testimonials {
