@@ -39,7 +39,7 @@ export function Header() {
   const isActive = (name: string) => activeDropdown === name
 
   return (
-    <header className="fixed z-50 top-4 left-4 right-4 px-4 py-4 pt-6 bg-teal-800/40 backdrop-blur-md rounded-full border border-white/5">
+    <header className="fixed z-50 top-4 left-4 right-4 px-4 py-4 pt-6 bg-emerald-900/40 backdrop-blur-md rounded-full border border-white/5">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="text-white text-2xl font-bold">Gynger</div>
