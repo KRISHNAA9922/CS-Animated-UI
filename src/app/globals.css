@@ -13,3 +13,19 @@
   animation: scroll 20s linear infinite;
 }
 
+/* Vertical scroll animation */
+@keyframes scroll-vertical {
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+.scroller {
+    --animation-duration: 20s;
+    --animation-direction: forwards;
+}
+
+.animate-scroll-vertical {
+    animation: scroll-vertical var(--animation-duration) linear infinite;
+    animation-direction: var(--animation-direction);
+}

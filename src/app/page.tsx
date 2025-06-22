@@ -8,7 +8,7 @@ import GyngerCard  from '@/components/GyngerCard'
 import GyngerSolution from "@/components/GyngerSolution"
 import Testimonials from "@/components/Testimonial-section"
 import  GetInTouch  from "@/components/GetInTouch"
-
+import Convenience from "@/components/ConvenienceAI/convenience"
 
 export default function HomePage() {
   return (
@@ -20,6 +20,7 @@ export default function HomePage() {
       <main className="bg-gray-50">
       <GyngerCard /> 
       <GyngerSolution/>
+      <Convenience/>
       <Testimonials/>
       <GetInTouch/>
     </main>

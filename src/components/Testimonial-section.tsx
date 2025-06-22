@@ -46,7 +46,7 @@ const TestimonialSlider = () => {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 max-w-2xl">
             Gynger is driving success across industries

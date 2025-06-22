@@ -3,38 +3,46 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getGyngerPaySection } from "@/helper";
 
 export function GyngerPaySection() {
+  const [data, setData] = useState<any>(null);
   const [selectedOption, setSelectedOption] = useState<"monthly" | "net">("monthly");
   const [offerSent, setOfferSent] = useState(false);
 
-  const handleSendOffer = () => {
-    setOfferSent(true);
-  };
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getGyngerPaySection();
+      console.log("📦 Gynger Pay CMS Data:", res); // ✅ CMS response console
+      setData(res);
+    }
+    fetchData();
+  }, []);
+
+  if (!data) return null;
+
+  const offer = data.offer_details;
 
   return (
-    <section className="relative z-10 bg-white py-25 sm:py-32">
-      <div className="px-6 sm:px-6 lg:px-32 mb-6">
+    <section className="relative z-10 bg-white py- sm:py-32">
+      <div className="px-6 sm:px-6 lg:px-25 mb-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-    {/* Left - Heading */}
           <h1 className="text-4xl md:text-5xl font-medium text-[#020518] leading-tight">
-           Payment solutions purpose-<br />
-           built for the <em className="italic">tech industry</em>.
+            {data.main_heading}
           </h1>
 
-    {/* Right - CTA */}
-         <a
-         href="#"
-         className="text-base font-medium text-gray-500 hover:text-gray-800 flex items-center gap-2 whitespace-nowrap pt-2 md:pt-0"
-        >
-      See what I can finance with Gynger
-      <ArrowRight className="w-4 h-4" />
-    </a>
-  </div>
-</div>
+          <a
+            href={data.subheading_link?.href || "#"}
+            className="text-base font-medium text-gray-500 hover:text-gray-800 flex items-center gap-2 whitespace-nowrap pt-2 md:pt-0"
+          >
+            {data.subheading_link?.title}
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
 
-      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-22">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
           {/* Left Content */}
           <motion.div
@@ -44,17 +52,23 @@ export function GyngerPaySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-5xl font-bold text-gray-900">Gynger Pay</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Extend flexible payment offers to your customers while getting paid up front.
-            </p>
+            <h2 className="text-5xl font-bold text-gray-900">{data.section_title}</h2>
+            <p
+              className="text-lg text-gray-700 leading-relaxed"
+               dangerouslySetInnerHTML={{ __html: data.section_description }}
+              />
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 group">
-                <div className="w-8 h-8 bg-teal-500 rounded flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-sm"></div>
-                </div>
-                Explore Gynger Pay
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Button
+                className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 group"
+                asChild
+              >
+                <a href={data.button?.href || "#"}>
+                  <div className="w-8 h-8 bg-teal-500 rounded flex items-center justify-center">
+                    <div className="w-4 h-4 bg-white rounded-sm"></div>
+                  </div>
+                  {data.button?.title}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
               </Button>
             </motion.div>
           </motion.div>
@@ -67,7 +81,6 @@ export function GyngerPaySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Main Card */}
             <motion.div
               className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 w-full max-w-md z-10"
               initial={{ y: 20, opacity: 0 }}
@@ -78,17 +91,21 @@ export function GyngerPaySection() {
               style={{ cursor: offerSent ? "pointer" : "default" }}
             >
               <div className="flex justify-between items-center mb-8">
-                <div className="text-2xl font-semibold text-gray-700">Acme LLC</div>
-                <div className="text-2xl font-bold text-gray-900">$80,000</div>
+                <div className="text-2xl font-semibold text-gray-700">{offer?.company_name}</div>
+                <div className="text-2xl font-bold text-gray-900">{offer?.amount}</div>
               </div>
 
               {!offerSent ? (
                 <>
-                  {["monthly", "net"].map((option, i) => {
-                    const isSelected = selectedOption === option;
+                 {[offer?.payment_option_1, offer?.payment_option_2].map((optionText, i) => {
+                    if (!optionText) return null;
+
+                    const value = optionText.toLowerCase().includes("monthly") ? "monthly" : "net";
+                    const isSelected = selectedOption === value;
+
                     return (
                       <motion.div
-                        key={option}
+                        key={optionText}
                         className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
                           isSelected
                             ? "bg-green-50 border-green-200"
@@ -98,9 +115,7 @@ export function GyngerPaySection() {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-                        onClick={() =>
-                          setSelectedOption(option as "monthly" | "net")
-                        }
+                        onClick={() => setSelectedOption(value as "monthly" | "net")}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -111,9 +126,7 @@ export function GyngerPaySection() {
                         >
                           {isSelected && <Check className="w-4 h-4 text-white" />}
                         </div>
-                        <span className="text-lg text-gray-700 capitalize">
-                          {option === "monthly" ? "Pay monthly" : "Net terms"}
-                        </span>
+                        <span className="text-lg text-gray-700">{optionText}</span>
                       </motion.div>
                     );
                   })}
@@ -126,9 +139,9 @@ export function GyngerPaySection() {
                     transition={{ duration: 0.4, delay: 0.8 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={handleSendOffer}
+                    onClick={() => setOfferSent(true)}
                   >
-                    Send offer
+                    {offer?.send_offer_button || "Send Offer"}
                   </motion.button>
                 </>
               ) : (
@@ -147,14 +160,12 @@ export function GyngerPaySection() {
                   >
                     <Check className="w-10 h-10 text-white" />
                   </motion.div>
-                  <p className="text-sm text-gray-500 text-center">
-                    Click to create new offer
-                  </p>
+                  <p className="text-sm text-gray-500 text-center">Click to create new offer</p>
                 </motion.div>
               )}
             </motion.div>
 
-            {/* Mobile Card Preview */}
+            {/* Mobile Preview Card */}
             <motion.div
               className="absolute -right-10 top-10 w-40 h-56 bg-gray-100 rounded-2xl shadow-lg border border-gray-200 p-4 transform rotate-12"
               initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
@@ -163,8 +174,8 @@ export function GyngerPaySection() {
               transition={{ duration: 0.6, delay: 0.9 }}
             >
               <div className="space-y-3">
-                <div className="text-xs text-gray-600">Acme LLC — Offer</div>
-                <div className="text-lg font-bold text-gray-900">$80,000</div>
+                <div className="text-xs text-gray-600">{offer?.company_name} — Offer</div>
+                <div className="text-lg font-bold text-gray-900">{offer?.amount}</div>
                 <div className="w-full bg-gray-200 rounded-full h-1 my-3">
                   <motion.div
                     className="bg-teal-600 h-1 rounded-full"
