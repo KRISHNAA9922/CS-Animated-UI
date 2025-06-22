@@ -14,7 +14,7 @@ export function GyngerPaySection() {
   useEffect(() => {
     async function fetchData() {
       const res = await getGyngerPaySection();
-      console.log(" Gynger Pay CMS Data:", res); 
+      // console.log(" Gynger Pay CMS Data:", res); 
       setData(res);
     }
     fetchData();

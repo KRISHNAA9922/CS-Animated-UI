@@ -11,7 +11,7 @@ const GyngerCard = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getGyngerCapitalSection();
-      console.log(" Gynger Capital CMS:", res);
+      // console.log(" Gynger Capital CMS:", res);
       setData(res);
     }
     fetchData();
@@ -21,7 +21,7 @@ const GyngerCard = () => {
 
   return (
     <motion.section
-      className="bg-white py-28 sm:py-32 overflow-hidden w-full"
+      className="bg-white py-28 sm:py-23 overflow-hidden w-full"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}

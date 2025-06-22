@@ -1,38 +1,31 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-
-const testimonials = [
-  {
-    name: "Timur Ozekcin",
-    title: "Co-Founder and CEO",
-    image:
-      "https://cdn.prod.website-files.com/67de8f1c7b26a9b133f316cb/67eb0cb869c4da290ba3177c_testimonial-avatar_01.jpg",
-    text: "Gynger's innovative approach to financing solutions has enabled our team to focus on providing the best cybersecurity solutions to our clients.",
-  },
-  {
-    name: "Jane Williams",
-    title: "VP of Operations",
-    image:
-      "https://cdn.prod.website-files.com/67de8f1c7b26a9b133f316cb/67eb0cb86089b6e9c45787a1_testimonial-avatar_02.jpg",
-    text: "Working with Gynger has helped us streamline our procurement processes while optimizing cash flow.",
-  },
-  {
-    name: "Michael Smith",
-    title: "CTO",
-    image:
-      "https://cdn.prod.website-files.com/67de8f1c7b26a9b133f316cb/67eb0cb8ce41db9203067f95_testimonial-avatar_04.jpg",
-    text: "Gynger made it easy for us to offer flexible financing to our customers and close deals faster.",
-  },
-];
+import { getTestimonialSection } from "@/helper";
 
 const TestimonialSlider = () => {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTestimonialSection();
+      if (Array.isArray(data)) {
+        setTestimonials(data);
+      } else {
+        console.error("Testimonials data is not an array:", data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (!testimonials || testimonials.length === 0) return null;
+
   return (
-    
     <section className="w-full py-20 overflow-hidden relative bg-white">
       <style>{`
         .swiper-slide.is-testimonials {
@@ -98,13 +91,17 @@ const TestimonialSlider = () => {
               <SwiperSlide key={i} className="swiper-slide is-testimonials">
                 <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg h-full">
                   <div className="flex items-center gap-4 mb-4">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={60}
-                      height={60}
-                      className="rounded-full object-cover"
-                    />
+                    {item.image?.url ? (
+                      <Image
+                        src={item.image.url}
+                        alt={item.name || "testimonial"}
+                        width={60}
+                        height={60}
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-[60px] h-[60px] rounded-full bg-gray-300" />
+                    )}
                     <div>
                       <p className="text-gray-800 font-semibold text-sm">{item.name}</p>
                       <p className="text-gray-500 text-xs">{item.title}</p>

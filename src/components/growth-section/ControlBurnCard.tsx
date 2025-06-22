@@ -1,13 +1,30 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getGrowthSection } from "@/helper";
 
 export function ControlBurnCard() {
+  const [growthData, setGrowthData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getGrowthSection();
+      setGrowthData(data);
+    };
+    fetchData();
+  }, []);
+
+  if (!growthData) return null;
+
   return (
     <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-      <h3 className="text-2xl font-bold text-gray-900 mb-4">Control burn</h3>
+      <h3 className="text-2xl font-bold text-gray-900 mb-4">
+        {growthData.burn_title || "Control burn"}
+      </h3>
       <p className="text-gray-600 mb-8 leading-relaxed">
-        Smooth out chunky payables, conserve your working capital, and invest where it matters most.
+        {growthData.burn_description ||
+          "Smooth out chunky payables, conserve your working capital, and invest where it matters most."}
       </p>
 
       {/* Animated moving element from left to right */}
@@ -19,14 +36,14 @@ export function ControlBurnCard() {
         <motion.div
           className="absolute w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white shadow-lg"
           initial={{
-            x: -96, // start at left
-            backgroundColor: "#ef4444", // red-500
-            boxShadow: "0 0 20px rgba(239, 68, 68, 0.5)", // red glow
+            x: -96,
+            backgroundColor: "#ef4444",
+            boxShadow: "0 0 20px rgba(239, 68, 68, 0.5)",
           }}
           animate={{
-            x: 96, // move to right
-            backgroundColor: "#22c55e", // green-500
-            boxShadow: "0 0 20px rgba(34, 197, 94, 0.5)", // green glow
+            x: 96,
+            backgroundColor: "#22c55e",
+            boxShadow: "0 0 20px rgba(34, 197, 94, 0.5)",
           }}
           transition={{
             duration: 3,
@@ -40,5 +57,5 @@ export function ControlBurnCard() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

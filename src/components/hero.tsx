@@ -11,7 +11,7 @@ export function Hero() {
   useEffect(() => {
   async function fetchHero() {
     const data = await getHeroSection();
-    console.log("Fetched Hero:", data); // <---- ADD THIS
+    console.log("Fetched Hero:", data); 
     setHeroData(data);
   }
 

@@ -2,51 +2,50 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { getGrowthSection } from "@/helper";
 
 export function AccelerateRevenuesCard() {
   const [hovered, setHovered] = useState(false);
+  const [growthData, setGrowthData] = useState<any>(null);
   const targetRevenue = useRef(150000);
   const animatedRevenue = useMotionValue(0);
   const smoothRevenue = useSpring(animatedRevenue, { stiffness: 80, damping: 20 });
 
-  const displayRevenue = useTransform(smoothRevenue, (val) =>
-    `+$${Math.round(val).toLocaleString()}`
-  );
-
-  const startRevenueAnimation = () => {
-    animatedRevenue.set(0); // reset
-    animatedRevenue.set(targetRevenue.current); // animate to target
-  };
+  const displayRevenue = useTransform(smoothRevenue, (val) => `+$${Math.round(val).toLocaleString()}`);
 
   useEffect(() => {
-    startRevenueAnimation(); // run on mount
+    const fetchData = async () => {
+      const data = await getGrowthSection();
+      setGrowthData(data);
+    };
+    fetchData();
   }, []);
 
   const handleHover = () => {
     setHovered(true);
-    startRevenueAnimation(); // run again on hover
+    animatedRevenue.set(0);
+    animatedRevenue.set(targetRevenue.current);
   };
+
+  if (!growthData) return null;
 
   return (
     <div
       className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
       onMouseEnter={handleHover}
-      onMouseLeave={() => setHovered(false)}
     >
       <h3 className="text-2xl font-bold text-gray-900 mb-4">
-        Accelerate revenues
+        {growthData.revenue_title || "Accelerate revenues"}
       </h3>
       <p className="text-gray-600 mb-8 leading-relaxed">
-        Streamline receivables and close cash gaps without compromising customer relationships.
+        {growthData.revenue_description ||
+          "Streamline receivables and close cash gaps without compromising customer relationships."}
       </p>
 
-      {/* Revenue number + bar chart */}
       <div className="relative h-32">
         <div className="absolute top-4 left-4">
           <div className="text-sm text-gray-500 mb-2">Revenue</div>
-          <motion.div
-            className="text-2xl font-bold text-green-500"
-          >
+          <motion.div className="text-2xl font-bold text-green-500">
             {displayRevenue}
           </motion.div>
         </div>
