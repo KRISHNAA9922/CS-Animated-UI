@@ -9,7 +9,7 @@ export function MovingLogos() {
   useEffect(() => {
     async function fetchLogos() {
       const data = await getMovingLogos();
-      console.log("🎯 Fetched Moving Logos from CMS:", data); 
+      console.log(" Fetched Moving Logos from CMS:", data); 
 
       if (data) {
         const logoUrls = Object.values(data).map(

@@ -11,7 +11,7 @@ const GyngerCard = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getGyngerCapitalSection();
-      console.log("📦 Gynger Capital CMS:", res);
+      console.log(" Gynger Capital CMS:", res);
       setData(res);
     }
     fetchData();
@@ -73,7 +73,7 @@ const GyngerCard = () => {
             transition={{ duration: 0.4, delay: 0.6 }}
           >
             <div className="text-sm text-gray-500 font-medium mb-1 flex justify-center items-center gap-2">
-              🏦 Available capital
+               Available capital
             </div>
             <div className="text-3xl font-bold text-gray-900">
               ${data.capital_amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}

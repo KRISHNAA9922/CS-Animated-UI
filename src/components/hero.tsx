@@ -33,7 +33,7 @@ export function Hero() {
          ></iframe>
         )
       }
-      {/* ✨ Foreground Content */}
+      {/* Foreground Content */}
       <div className="max-w-4xl mx-auto relative z-20">
         {/* Headline */}
         <h1 className="text-white text-5xl md:text-7xl font-bold mb-8 leading-tight">
@@ -46,7 +46,7 @@ export function Hero() {
            dangerouslySetInnerHTML={{ __html: heroData.subtitle }}
         />
 
-        {/* 📧 Email Input Form */}
+    
         <form
           onSubmit={(e) => {
             e.preventDefault();
