@@ -7,19 +7,24 @@ import Image from "next/image";
 export function MovingLogos() {
   const [logos, setLogos] = useState<string[]>([]);
 
-useEffect(() => {
-  async function fetchLogos() {
-    const data = await getMovingLogos();
-    console.log("Fetched Moving Logos from CMS:", data);
+  useEffect(() => {
+    async function fetchLogos() {
+      const data = await getMovingLogos();
+      console.log("Fetched Moving Logos from CMS:", data);
 
-    if (Array.isArray(data)) {
-      const logoUrls = data.map((logo) => logo.href);
-      setLogos(logoUrls);
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        // Convert object to array
+        const logoArray = Object.values(data);
+        const logoUrls = logoArray.map((logo) => (logo as { href: string }).href);
+        setLogos(logoUrls);
+      } else if (Array.isArray(data)) {
+        const logoUrls = data.map((logo) => logo.href);
+        setLogos(logoUrls);
+      }
     }
-  }
 
-  fetchLogos();
-}, []);
+    fetchLogos();
+  }, []);
 
 
   if (!logos.length) return null;
