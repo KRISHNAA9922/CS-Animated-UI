@@ -83,7 +83,7 @@ const GyngerSolution: NextPage = () => {
             <Card
               key={index}
               title={card.title}
-              imageSrc={card.image?.url || ""}
+              imageSrc={card.image?.href}
               items={card.items}
               linkText={card.link_text}
               linkUrl={card.link_url}

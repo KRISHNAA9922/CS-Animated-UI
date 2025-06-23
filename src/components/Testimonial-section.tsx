@@ -91,9 +91,9 @@ const TestimonialSlider = () => {
               <SwiperSlide key={i} className="swiper-slide is-testimonials">
                 <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg h-full">
                   <div className="flex items-center gap-4 mb-4">
-                    {item.image?.url ? (
+                    {item.image?.[0]?.url ? (
                       <Image
-                        src={item.image.url}
+                        src={item.image?.[0]?.url}
                         alt={item.name || "testimonial"}
                         width={60}
                         height={60}

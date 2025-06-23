@@ -20,7 +20,7 @@ export const InfiniteMovingCards = ({
     speed?: 'fast' | 'normal' | 'slow';
     pauseOnHover?: boolean;
     className?: string;
-}) => {
+     }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const scrollerRef = React.useRef<HTMLUListElement>(null);
     const [start, setStart] = useState(false);
@@ -94,5 +94,5 @@ export const InfiniteMovingCards = ({
                 ))}
             </ul>
         </div>
-    );
+    ); 
 };

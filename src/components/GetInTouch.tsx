@@ -68,7 +68,7 @@ export default function GetInTouch() {
                 animate={{ opacity: 1 }}
                 className="text-green-600 font-medium text-lg mt-2"
               >
-                ✅ Thanks! We’ll be in touch shortly.
+                Thanks! We’ll be in touch shortly.
               </motion.p>
             )}
 

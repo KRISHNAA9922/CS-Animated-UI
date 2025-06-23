@@ -14,7 +14,6 @@ export function GyngerPaySection() {
   useEffect(() => {
     async function fetchData() {
       const res = await getGyngerPaySection();
-      // console.log(" Gynger Pay CMS Data:", res); 
       setData(res);
     }
     fetchData();
@@ -25,9 +24,13 @@ export function GyngerPaySection() {
   const offer = data.offer_details;
 
   return (
-    <section className="relative z-10 bg-white py- sm:py-32">
-      <div className="px-6 sm:px-6 lg:px-25 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <section className="relative z-10 bg-white py-20 sm:py-32 px-4 sm:px-6">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <h1 className="text-[120px] sm:text-[180px] font-bold text-black/5 leading-none">Pay</h1>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto bg-white rounded-[64px] shadow-md p-6 sm:p-16">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
           <h1 className="text-4xl md:text-5xl font-medium text-[#020518] leading-tight">
             {data.main_heading}
           </h1>
@@ -40,11 +43,8 @@ export function GyngerPaySection() {
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
-      </div>
 
-      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-22">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
-          {/* Left Content */}
           <motion.div
             className="space-y-8 max-w-xl lg:pr-12"
             initial={{ opacity: 0, x: -50 }}
@@ -55,8 +55,8 @@ export function GyngerPaySection() {
             <h2 className="text-5xl font-bold text-gray-900">{data.section_title}</h2>
             <p
               className="text-lg text-gray-700 leading-relaxed"
-               dangerouslySetInnerHTML={{ __html: data.section_description }}
-              />
+              dangerouslySetInnerHTML={{ __html: data.section_description }}
+            />
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 group"
@@ -73,7 +73,6 @@ export function GyngerPaySection() {
             </motion.div>
           </motion.div>
 
-          {/* Right Card */}
           <motion.div
             className="relative flex justify-center"
             initial={{ opacity: 0, x: 50 }}
@@ -97,9 +96,8 @@ export function GyngerPaySection() {
 
               {!offerSent ? (
                 <>
-                 {[offer?.payment_option_1, offer?.payment_option_2].map((optionText, i) => {
+                  {[offer?.payment_option_1, offer?.payment_option_2].map((optionText, i) => {
                     if (!optionText) return null;
-
                     const value = optionText.toLowerCase().includes("monthly") ? "monthly" : "net";
                     const isSelected = selectedOption === value;
 
