@@ -6,7 +6,10 @@ import { getGrowthSection } from "@/helper";
 
 export function AccelerateRevenuesCard() {
   const [hovered, setHovered] = useState(false);
-  const [growthData, setGrowthData] = useState<any>(null);
+const [growthData, setGrowthData] = useState<{
+  revenue_title?: string;
+  revenue_description?: string;
+} | null>(null);
   const targetRevenue = useRef(150000);
   const animatedRevenue = useMotionValue(0);
   const smoothRevenue = useSpring(animatedRevenue, { stiffness: 80, damping: 20 });

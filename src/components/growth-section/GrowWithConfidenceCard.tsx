@@ -4,7 +4,14 @@ import { motion } from "framer-motion";
 import { getGrowthSection } from "@/helper";
 
 export function GrowWithConfidenceCard() {
-  const [growthData, setGrowthData] = useState<any>(null);
+const [growthData, setGrowthData] = useState<{
+  mrr_percentage?: number;
+  cac_percentage?: number;
+  arr_percentage?: number;
+  revenue?: string;
+  title?: string;
+  description?: string;
+} | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {

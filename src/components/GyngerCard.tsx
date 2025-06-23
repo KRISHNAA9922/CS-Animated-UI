@@ -5,8 +5,19 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { getGyngerCapitalSection } from "@/helper";
 
+interface GyngerCapitalData {
+  gynger_capital_title: string;
+  gynger_capital_text: string;
+  button_1_text: string;
+  button_2_text: string;
+  gynger_capital_image?: {
+    href: string;
+  };
+  capital_amount: number;
+}
+
 const GyngerCard = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<GyngerCapitalData | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,7 +44,6 @@ const GyngerCard = () => {
             </h1>
           </div>
 
-          
           <div className="relative z-10 grid md:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -56,7 +66,6 @@ const GyngerCard = () => {
               </div>
             </motion.div>
 
-
             <motion.div
               className="relative w-full max-w-md mx-auto"
               initial={{ opacity: 0, x: 40 }}
@@ -71,7 +80,6 @@ const GyngerCard = () => {
                 className="rounded-4xl shadow-lg"
                 unoptimized
               />
-
 
               <motion.div
                 className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-md px-6 py-4 w-[85%] text-center"

@@ -14,8 +14,8 @@ const Stack = contentstack.Stack({
   environment: environment,
 });
 
-export const getAllEntries = (contentTypeUid: string): Promise<any[]> => {
-  return new Promise((resolve, reject) => {
+export const getAllEntries = <T>(contentTypeUid: string): Promise<T[]> => {
+  return new Promise<T[]>((resolve, reject) => {
     const Query = Stack.ContentType(contentTypeUid).Query();
     Query
       .includeCount()

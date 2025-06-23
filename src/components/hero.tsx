@@ -5,34 +5,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getHeroSection } from "@/helper";
 
+interface HeroData {
+  title: string;
+  subtitle: string;
+  background_image?: {
+    href: string;
+    title?: string;
+  };
+  call_to_action_text: string;
+}
+
 export function Hero() {
-  const [heroData, setHeroData] = useState<any>(null);
+  const [heroData, setHeroData] = useState<HeroData | null>(null);
 
   useEffect(() => {
-  async function fetchHero() {
-    const data = await getHeroSection();
-    console.log("Fetched Hero:", data); 
-    setHeroData(data);
-  }
+    async function fetchHero() {
+      const data = await getHeroSection();
+      setHeroData(data);
+    }
 
-  fetchHero();
-}, []);
+    fetchHero();
+  }, []);
 
   if (!heroData) return null;
 
   return (
     <main className="relative z-10 flex flex-col items-center justify-center h-screen pt-[120px] px-6 text-center overflow-hidden">
       {heroData.background_image?.href && (
-       <iframe
-         src={heroData.background_image.href}
-         className="absolute top-0 left-0 w-full h-full object-cover -z-10 pointer-events-none"
-         frameBorder="0"
-         allow="autoplay; fullscreen"
-        allowFullScreen
-        title={heroData.background_image.title || "Background Animation"}
-         ></iframe>
-        )
-      }
+        <iframe
+          src={heroData.background_image.href}
+          className="absolute top-0 left-0 w-full h-full object-cover -z-10 pointer-events-none"
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title={heroData.background_image.title || "Background Animation"}
+        ></iframe>
+      )}
       {/* Foreground Content */}
       <div className="max-w-4xl mx-auto relative z-20">
         {/* Headline */}
@@ -43,10 +51,9 @@ export function Hero() {
         {/* Subheadline */}
         <div
           className="text-teal-100 text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed"
-           dangerouslySetInnerHTML={{ __html: heroData.subtitle }}
+          dangerouslySetInnerHTML={{ __html: heroData.subtitle }}
         />
 
-    
         <form
           onSubmit={(e) => {
             e.preventDefault();

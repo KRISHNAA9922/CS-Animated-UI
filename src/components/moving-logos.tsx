@@ -2,25 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { getMovingLogos } from "@/helper";
+import Image from "next/image";
 
 export function MovingLogos() {
   const [logos, setLogos] = useState<string[]>([]);
 
-  useEffect(() => {
-    async function fetchLogos() {
-      const data = await getMovingLogos();
-      console.log(" Fetched Moving Logos from CMS:", data); 
+useEffect(() => {
+  async function fetchLogos() {
+    const data = await getMovingLogos();
+    console.log("Fetched Moving Logos from CMS:", data);
 
-      if (data) {
-        const logoUrls = Object.values(data).map(
-          (logo: any) => logo.href
-        );
-        setLogos(logoUrls);
-      }
+    if (Array.isArray(data)) {
+      const logoUrls = data.map((logo) => logo.href);
+      setLogos(logoUrls);
     }
+  }
 
-    fetchLogos();
-  }, []);
+  fetchLogos();
+}, []);
+
 
   if (!logos.length) return null;
 
@@ -52,10 +52,12 @@ export function MovingLogos() {
                 key={index}
                 className="flex-shrink-0 mx-8 flex items-center justify-center"
               >
-                <img
+                <Image
                   src={logo}
                   alt={`logo-${index}`}
-                  className="h-10 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  width={40}
+                  height={40}
+                  className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
                 />
               </div>
             ))}

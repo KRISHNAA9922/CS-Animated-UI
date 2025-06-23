@@ -6,8 +6,31 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { getGyngerPaySection } from "@/helper";
 
+interface OfferDetails {
+  company_name?: string;
+  amount?: string;
+  payment_option_1?: string;
+  payment_option_2?: string;
+  send_offer_button?: string;
+}
+
+interface GyngerPayData {
+  main_heading: string;
+  subheading_link?: {
+    href: string;
+    title: string;
+  };
+  section_title: string;
+  section_description: string;
+  button?: {
+    href: string;
+    title: string;
+  };
+  offer_details?: OfferDetails;
+}
+
 export function GyngerPaySection() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<GyngerPayData | null>(null);
   const [selectedOption, setSelectedOption] = useState<"monthly" | "net">("monthly");
   const [offerSent, setOfferSent] = useState(false);
 

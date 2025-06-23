@@ -3,18 +3,41 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { getGyngerSolution } from "@/helper";
+import Image from "next/image";
+
+interface CardType {
+  title: string;
+  image: {
+    href: string;
+  };
+  items: string[] | string;
+  link_text: string;
+  link_url: string;
+}
+
+interface SolutionDataType {
+  title: string;
+  cards: CardType[];
+}
 
 const GyngerSolution: NextPage = () => {
-  const [solutionData, setSolutionData] = useState<any>(null);
+  const [solutionData, setSolutionData] = useState<SolutionDataType | null>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getGyngerSolution();
-      setSolutionData(data);
+ useEffect(() => {
+  async function fetchData() {
+    const data = await getGyngerSolution();
+
+    // ✅ Optional validation (you can expand this as needed)
+    if (data && typeof data.title === "string" && Array.isArray(data.cards)) {
+      setSolutionData(data as SolutionDataType);
+    } else {
+      console.error("Invalid data structure received:", data);
     }
+  }
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
+
 
   const Card: React.FC<{
     title: string;
@@ -24,18 +47,22 @@ const GyngerSolution: NextPage = () => {
     linkUrl: string;
     onLearnMore?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   }> = ({ title, imageSrc, items, linkText, linkUrl, onLearnMore }) => {
-    const safeItems = Array.isArray(items)
-      ? items
-      : typeof items === "string"
-      ? items.split("\n")
-      : [];
+    const safeItems =
+      Array.isArray(items) && items.length > 0
+        ? items
+        : typeof items === "string"
+        ? items.split("\n")
+        : [];
 
     return (
       <div className="bg-teal-900 p-6 rounded-xl text-left shadow-md hover:shadow-lg transition w-full">
-        <img
+        <Image
           src={imageSrc}
           alt={title}
+          width={80}
+          height={80}
           className="rounded-full w-20 h-20 mb-4 object-cover"
+          unoptimized
         />
         <h3 className="text-xl font-semibold text-teal-100 mb-4">{title}</h3>
         <ul className="text-teal-200 space-y-2 mb-4">
@@ -79,7 +106,7 @@ const GyngerSolution: NextPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {solutionData.cards?.map((card: any, index: number) => (
+          {solutionData.cards.map((card, index) => (
             <Card
               key={index}
               title={card.title}

@@ -4,8 +4,23 @@ import { useEffect, useState } from "react";
 import { InfiniteMovingCardsDemo } from "./infiniteMovingCardsDemo";
 import { getConvenienceSection } from "@/helper";
 
+interface Logo {
+  title?: string;
+  href: string;
+}
+
+interface ConvenienceData {
+  logos?: Logo[];
+  no_code_title?: string;
+  fast_approvals_text?: string;
+  cta_link?: {
+    href: string;
+  };
+  cta_text?: string;
+}
+
 function VerticalSlider() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ConvenienceData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +32,7 @@ function VerticalSlider() {
 
   if (!data) return null;
 
-  const companies = data.logos?.map((logo: any, index: number) => ({
+  const companies = data.logos?.map((logo, index) => ({
     id: index,
     name: logo.title || `logo-${index + 1}`,
     logoUrl: logo.href,

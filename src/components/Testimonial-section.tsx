@@ -114,7 +114,9 @@ const TestimonialSlider = () => {
                       <p className="text-gray-500 text-xs">{item.title}</p>
                     </div>
                   </div>
-                  <p className="text-gray-700 text-base mb-4">"{item.text}"</p>
+                  <p className="text-gray-700 text-base mb-4">
+                    {"\u201C"}{item.text}{"\u201D"}
+                  </p>
                   <a
                     href="#"
                     className="text-teal-600 text-sm font-medium hover:underline"
