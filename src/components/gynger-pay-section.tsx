@@ -29,7 +29,9 @@ export function GyngerPaySection() {
         <h1 className="text-[120px] sm:text-[180px] font-bold text-black/5 leading-none">Pay</h1>
       </div>
 
+      {/* White curved container */}
       <div className="relative z-10 max-w-7xl mx-auto bg-white rounded-[64px] shadow-md p-6 sm:p-16">
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
           <h1 className="text-4xl md:text-5xl font-medium text-[#020518] leading-tight">
             {data.main_heading}
@@ -45,6 +47,7 @@ export function GyngerPaySection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
+          {/* Left Content */}
           <motion.div
             className="space-y-8 max-w-xl lg:pr-12"
             initial={{ opacity: 0, x: -50 }}
@@ -73,6 +76,7 @@ export function GyngerPaySection() {
             </motion.div>
           </motion.div>
 
+          {/* Right Card */}
           <motion.div
             className="relative flex justify-center"
             initial={{ opacity: 0, x: 50 }}

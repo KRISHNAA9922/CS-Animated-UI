@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import Lottie from 'lottie-react';
 import React, { useEffect, useState } from 'react';
 
 export const LottieAnimation: React.FC = () => {
-    const [animationData, setAnimationData] = useState<any>(null);
+    const [animationData, setAnimationData] = useState<object | null>(null);
 
     useEffect(() => {
         fetch(

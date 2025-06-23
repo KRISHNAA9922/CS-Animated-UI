@@ -4,8 +4,13 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getGrowthSection } from "@/helper";
 
+interface GrowthData {
+  burn_title?: string;
+  burn_description?: string;
+}
+
 export function ControlBurnCard() {
-  const [growthData, setGrowthData] = useState<any>(null);
+  const [growthData, setGrowthData] = useState<GrowthData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {

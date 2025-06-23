@@ -8,8 +8,15 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { getTestimonialSection } from "@/helper";
 
+interface Testimonial {
+  image?: { url: string }[];
+  name?: string;
+  title?: string;
+  text?: string;
+}
+
 const TestimonialSlider = () => {
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
