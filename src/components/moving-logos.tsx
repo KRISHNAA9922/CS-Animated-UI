@@ -25,7 +25,6 @@ export function MovingLogos() {
     fetchLogos();
   }, []);
 
-  // Memoize duplicated logos array to avoid re-creating on every render
   const duplicatedLogos = useMemo(() => [...logos, ...logos], [logos]);
 
   if (!logos.length) return null;

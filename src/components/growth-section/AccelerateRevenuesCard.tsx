@@ -24,7 +24,6 @@ export function AccelerateRevenuesCard() {
     fetchData();
   }, []);
 
-  // Memoize growthData to avoid unnecessary re-renders
   const memoizedGrowthData = useMemo(() => growthData, [growthData]);
 
   const handleHover = () => {
