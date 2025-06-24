@@ -1,19 +1,38 @@
 "use client";
 
 import Lottie from 'lottie-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+
+let cachedAnimationData: object | null = null;
 
 export const LottieAnimation: React.FC = () => {
-    const [animationData, setAnimationData] = useState<object | null>(null);
+    const [animationData, setAnimationData] = useState<object | null>(cachedAnimationData);
+    const isMounted = useRef(true);
 
     useEffect(() => {
-        fetch(
-            'https://cdn.prod.website-files.com/67de8f1c7b26a9b133f316cb/680bcc5659a2c1e948cfcd64_AI.json'
-        )
-            .then(res => res.json())
-            .then(setAnimationData)
-            .catch(console.error);
+        isMounted.current = true;
+        if (!cachedAnimationData) {
+            fetch(
+                'https://cdn.prod.website-files.com/67de8f1c7b26a9b133f316cb/680bcc5659a2c1e948cfcd64_AI.json'
+            )
+                .then(res => res.json())
+                .then(data => {
+                    cachedAnimationData = data;
+                    if (isMounted.current) {
+                        setAnimationData(data);
+                    }
+                })
+                .catch(console.error);
+        }
+        return () => {
+            isMounted.current = false;
+        };
     }, []);
+
+    if (!animationData) {
+        return null; // or a placeholder/loading spinner
+    }
+
     return (
         <div className="flex items-center justify-center flex-col w-full lg:w-[45%] py-6">
             <div
@@ -55,4 +74,5 @@ export const LottieAnimation: React.FC = () => {
             </div>
         </div>
     );
-};
+}
+

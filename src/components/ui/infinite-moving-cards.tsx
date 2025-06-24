@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
-export const InfiniteMovingCards = ({
+export const InfiniteMovingCards = React.memo(({
     items,
     direction = 'up',
     speed = 'fast',
@@ -16,75 +16,65 @@ export const InfiniteMovingCards = ({
         name: string;
         logoUrl: string;
     }[];
-    direction?: 'up' | 'down'; // Now vertical
+    direction?: 'up' | 'down';
     speed?: 'fast' | 'normal' | 'slow';
     pauseOnHover?: boolean;
     className?: string;
-     }) => {
+}) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const scrollerRef = React.useRef<HTMLUListElement>(null);
     const [start, setStart] = useState(false);
 
+    // Memoize duplicated items to avoid cloning DOM nodes manually
+    const duplicatedItems = useMemo(() => [...items, ...items], [items]);
 
     useEffect(() => {
-        if (containerRef.current && scrollerRef.current) {
-            const scrollerContent = Array.from(scrollerRef.current.children);
-            scrollerContent.forEach(item => {
-                const duplicatedItem = item.cloneNode(true);
-                scrollerRef.current?.appendChild(duplicatedItem);
-            });
-
-            if (containerRef.current) {
-                if (direction === 'up') {
-                    containerRef.current.style.setProperty('--animation-direction', 'forwards');
-                } else {
-                    containerRef.current.style.setProperty('--animation-direction', 'reverse');
-                }
+        if (containerRef.current) {
+            if (direction === 'up') {
+                containerRef.current.style.setProperty('--animation-direction', 'forwards');
+            } else {
+                containerRef.current.style.setProperty('--animation-direction', 'reverse');
             }
 
-            if (containerRef.current) {
-                if (speed === 'fast') {
-                    containerRef.current.style.setProperty('--animation-duration', '20s');
-                } else if (speed === 'normal') {
-                    containerRef.current.style.setProperty('--animation-duration', '40s');
-                } else {
-                    containerRef.current.style.setProperty('--animation-duration', '80s');
-                }
+            if (speed === 'fast') {
+                containerRef.current.style.setProperty('--animation-duration', '20s');
+            } else if (speed === 'normal') {
+                containerRef.current.style.setProperty('--animation-duration', '40s');
+            } else {
+                containerRef.current.style.setProperty('--animation-duration', '80s');
             }
-
-            setStart(true);
         }
+        setStart(true);
     }, [direction, speed]);
 
     return (
         <div
             ref={containerRef}
-            className={cn('scroller relative z-20 max-h-[500px] overflow-hidden', className)}
+            className={cn('scroller relative z-20 max-h-[500px] overflow-hidden will-change-transform', className)}
         >
             <ul
-                ref={scrollerRef}
                 className={cn(
                     'flex flex-col gap-4 py-4',
                     start && 'animate-scroll-vertical',
                     pauseOnHover && 'hover:[animation-play-state:paused]'
                 )}
             >
-                {items.map(item => (
-                    <li
-                        key={item.id}
-                        className="flex h-[90px] w-[150px] items-center justify-center rounded-xl bg-white shadow-md border border-gray-200 mx-auto"
-                    >
-                        <Image
-                            src={item.logoUrl}
-                            alt={item.name}
-                            width={90}
-                            height={100}
-                            className="h-full w-full object-cover
-                            "
-                        />
-                    </li>
-                ))}
+{duplicatedItems.map((item, index) => (
+    <li
+        key={item.id + '-' + item.name + '-' + index}
+        className="flex h-[90px] w-[150px] items-center justify-center rounded-xl bg-white shadow-md border border-gray-200 mx-auto"
+    >
+        <Image
+            src={item.logoUrl}
+            alt={item.name}
+            width={90}
+            height={100}
+            className="h-full w-full object-cover"
+            priority={false}
+            loading="lazy"
+        />
+    </li>
+))}
             </ul>
         </div>
-    ); 
-};
+    );
+});

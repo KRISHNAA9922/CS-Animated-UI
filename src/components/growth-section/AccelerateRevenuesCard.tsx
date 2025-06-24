@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { getGrowthSection } from "@/helper";
 
 export function AccelerateRevenuesCard() {
   const [hovered, setHovered] = useState(false);
-const [growthData, setGrowthData] = useState<{
-  revenue_title?: string;
-  revenue_description?: string;
-} | null>(null);
+  const [growthData, setGrowthData] = useState<{
+    revenue_title?: string;
+    revenue_description?: string;
+  } | null>(null);
   const targetRevenue = useRef(150000);
   const animatedRevenue = useMotionValue(0);
   const smoothRevenue = useSpring(animatedRevenue, { stiffness: 80, damping: 20 });
@@ -24,13 +24,16 @@ const [growthData, setGrowthData] = useState<{
     fetchData();
   }, []);
 
+  // Memoize growthData to avoid unnecessary re-renders
+  const memoizedGrowthData = useMemo(() => growthData, [growthData]);
+
   const handleHover = () => {
     setHovered(true);
     animatedRevenue.set(0);
     animatedRevenue.set(targetRevenue.current);
   };
 
-  if (!growthData) return null;
+  if (!memoizedGrowthData) return null;
 
   return (
     <div
@@ -38,10 +41,10 @@ const [growthData, setGrowthData] = useState<{
       onMouseEnter={handleHover}
     >
       <h3 className="text-2xl font-bold text-gray-900 mb-4">
-        {growthData.revenue_title || "Accelerate revenues"}
+        {memoizedGrowthData.revenue_title || "Accelerate revenues"}
       </h3>
       <p className="text-gray-600 mb-8 leading-relaxed">
-        {growthData.revenue_description ||
+        {memoizedGrowthData.revenue_description ||
           "Streamline receivables and close cash gaps without compromising customer relationships."}
       </p>
 

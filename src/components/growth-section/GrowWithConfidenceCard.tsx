@@ -1,17 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { getGrowthSection } from "@/helper";
 
 export function GrowWithConfidenceCard() {
-const [growthData, setGrowthData] = useState<{
-  mrr_percentage?: number;
-  cac_percentage?: number;
-  arr_percentage?: number;
-  revenue?: string;
-  title?: string;
-  description?: string;
-} | null>(null);
+  const [growthData, setGrowthData] = useState<{
+    mrr_percentage?: number;
+    cac_percentage?: number;
+    arr_percentage?: number;
+    revenue?: string;
+    title?: string;
+    description?: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,20 +21,23 @@ const [growthData, setGrowthData] = useState<{
     fetchData();
   }, []);
 
-  if (!growthData) return null;
+  // Memoize growthData to avoid unnecessary re-renders
+  const memoizedGrowthData = useMemo(() => growthData, [growthData]);
 
-  const mrr = growthData.mrr_percentage || 12;
-  const cac = growthData.cac_percentage || 12;
-  const arr = growthData.arr_percentage || 12;
-  const revenue = growthData.revenue || "$17M";
+  if (!memoizedGrowthData) return null;
+
+  const mrr = memoizedGrowthData.mrr_percentage || 12;
+  const cac = memoizedGrowthData.cac_percentage || 12;
+  const arr = memoizedGrowthData.arr_percentage || 12;
+  const revenue = memoizedGrowthData.revenue || "$17M";
 
   return (
     <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
       <h3 className="text-2xl font-bold text-gray-900 mb-4">
-        {growthData.title || "Grow with confidence"}
+        {memoizedGrowthData.title || "Grow with confidence"}
       </h3>
       <p className="text-gray-600 mb-8 leading-relaxed">
-        {growthData.description ||
+        {memoizedGrowthData.description ||
           "Embed Gynger across your financial workflows to optimize key performance indicators and achieve lasting success."}
       </p>
 
@@ -107,11 +110,14 @@ const [growthData, setGrowthData] = useState<{
             transition={{ duration: 0.6, delay: 0.8, type: "spring", stiffness: 100 }}
             whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
           >
-            <div className="text-xs font-medium text-gray-600 mb-1">Revenue</div>
-            <div className="text-lg font-bold text-green-500">{revenue}</div>
+            <div className="flex items-center justify-between mb-1"> 
+              <span className="text-xs font-medium text-gray-600">Revenue</span>
+              <div className="text-lg font-bold text-green-500">{revenue}</div>
+            </div>
           </motion.div>
         </div>
       </div>
     </div>
   );
 }
+

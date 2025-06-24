@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getMovingLogos } from "@/helper";
 import Image from "next/image";
 
@@ -13,7 +13,6 @@ export function MovingLogos() {
       console.log("Fetched Moving Logos from CMS:", data);
 
       if (data && typeof data === 'object' && !Array.isArray(data)) {
-        // Convert object to array
         const logoArray = Object.values(data);
         const logoUrls = logoArray.map((logo) => (logo as { href: string }).href);
         setLogos(logoUrls);
@@ -26,6 +25,8 @@ export function MovingLogos() {
     fetchLogos();
   }, []);
 
+  // Memoize duplicated logos array to avoid re-creating on every render
+  const duplicatedLogos = useMemo(() => [...logos, ...logos], [logos]);
 
   if (!logos.length) return null;
 
@@ -42,6 +43,7 @@ export function MovingLogos() {
             animation: scroll 30s linear infinite;
             display: flex;
             width: max-content;
+            will-change: transform;
           }
         `}
       </style>
@@ -52,7 +54,7 @@ export function MovingLogos() {
           <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
           <div className="animate-logo-scroll">
-            {[...logos, ...logos].map((logo, index) => (
+            {duplicatedLogos.map((logo, index) => (
               <div
                 key={index}
                 className="flex-shrink-0 mx-8 flex items-center justify-center"
@@ -60,9 +62,11 @@ export function MovingLogos() {
                 <Image
                   src={logo}
                   alt={`logo-${index}`}
-                  width={40}
-                  height={40}
+                  width={90}
+                  height={90}
                   className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  priority={false}
+                  loading="lazy"
                 />
               </div>
             ))}
